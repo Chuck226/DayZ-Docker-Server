@@ -1,5 +1,8 @@
 FROM ubuntu:24.04
 
+WORKDIR /servers
+VOLUME /servers
+
 # 1. Prevent interactive prompts during installation
 ENV DEBIAN_FRONTEND=noninteractive
 RUN touch /var/mail/ubuntu && chown ubuntu /var/mail/ubuntu && userdel -r ubuntu
@@ -19,18 +22,15 @@ RUN echo steam steam/question select "I AGREE" | debconf-set-selections \
 RUN apt-get update && apt-get install -y --no-install-recommends \
     steamcmd \
     ca-certificates \
+    gosu procps \
     && rm -rf /var/lib/apt/lists/*
 
 # 6. Create a symlink so 'steamcmd' is accessible globally in your terminal
 RUN ln -s /usr/games/steamcmd /usr/bin/steamcmd
 
-RUN mkdir -p /servers
-RUN mkdir -p /scripts
+COPY scripts/ /scripts/
+COPY entrypoint.sh /entrypoint.sh
 
-COPY server_setup.sh /scripts/server_setup.sh
-RUN chmod +x /scripts/server_setup.sh
+RUN chmod +x /scripts/*
 
-WORKDIR /servers
-VOLUME /servers
-
-CMD ["/bin/bash", "/scripts/server_setup.sh"]
+ENTRYPOINT ["/bin/bash", "/entrypoint.sh"]

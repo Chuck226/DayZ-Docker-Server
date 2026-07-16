@@ -4,19 +4,30 @@ services:
     build:
       context: .           # The directory containing the Dockerfile
       dockerfile: Dockerfile
-    # 2. Give your container a recognizable name
+    # 2. Resource requests and limits
+    deploy:
+      resources:
+        limits:
+          cpus: 6
+          memory: 8g
+        reservations:
+          cpus: 6
+          memory: 8g
+    # 3. Give your container a recognizable name
     container_name: dayz-test-server
-    # 3. Mount your local files (so DayZ downloads stay on your host machine)   WIP
-    user: "1000:1000"
-    #volumes:
-    #  - ./data:/servers
-    # 4. Expose the essential UDP ports to your local network
+    # 4. Mount your local files (DayZ Server files will be accesible on your computer)
+    volumes:
+      - ./data:/servers
+    # 5. Expose the essential UDP ports to your local network
     ports:
       - "2301-2307:2301-2307/udp"
       - "27016:27016/udp"
-    # 5. Environemntal variables
+    # 6. Environemntal variables
     environment:
+      PUID: 1000
+      PGID: 1000
       STEAM_USERNAME: "steam_username"
       STEAM_PASSWORD: "steam_password"
+      PORT: 2302 #default port
     # Optional: ensure it restarts if it crashes
     restart: unless-stopped

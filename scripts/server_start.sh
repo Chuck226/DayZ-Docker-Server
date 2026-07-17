@@ -1,5 +1,5 @@
 #!/bin/bash
-#this script will start server, in case of first start this script will setup server for first time
+#this script will start vanilla DayZ Standalone Server Without Mods
 set -e
 
 PUID=${PUID:-1000}
@@ -19,7 +19,7 @@ run_server_as_requested_user() {
 
 
 # 1. Evaluate the condition: Do we need to install?
-if [ ! -d "/servers/dayz-server" ]; then
+if [ ! -d "/servers/dayz-server/mpmissions" ]; then
     install_server_as_requested_user
 else
     echo "DayZ directory exists. Skipping installation step."

@@ -36,6 +36,7 @@ ARG PGID=1000
 RUN groupadd -g ${PGID} -r dayz-docker && useradd -u ${PUID} -g dayz-docker -r -s /bin/bash -m dayz-docker
 WORKDIR /home/dayz-docker
 RUN chown -R dayz-docker:dayz-docker /home/dayz-docker
+ENV HOME=/home/dayz-docker
 USER dayz-docker
 
 ENTRYPOINT ["/bin/bash", "/entrypoint.sh"]

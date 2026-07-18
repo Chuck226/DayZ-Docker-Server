@@ -1,6 +1,6 @@
 services:
   dayz-server:
-    #Use when need to run as root
+    #Uncomment when you need to run container user as root
     #user: "0:0"
     # 1. Point to your Dockerfile
     build:
@@ -17,7 +17,7 @@ services:
           memory: 8g
     # 3. Give your container a recognizable name
     container_name: dayz-test-server
-    # 4. Mount your local files (DayZ Server files will be accesible on your computer)
+    # 4. These Folders need to be mounted on host machine
     volumes:
       - ./data:/home/dayz-docker
     # 5. Expose the essential UDP ports to your local network

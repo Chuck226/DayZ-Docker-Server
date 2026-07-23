@@ -28,6 +28,8 @@ services:
     environment:
       STEAM_USERNAME: "steam_username"
       STEAM_PASSWORD: "steam_password"
+      STEAM_GUARD_CODE: "steam_guard_code"
       PORT: 2302 #default port
+      WORKSHOP_MODS: "" # 1559212036;1564026768;
     # Optional: ensure it restarts if it crashes
     restart: unless-stopped

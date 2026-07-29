@@ -8,22 +8,21 @@ RUN touch /var/mail/ubuntu && chown ubuntu /var/mail/ubuntu && userdel -r ubuntu
 RUN dpkg --add-architecture i386
 
 # 2. Add the multiverse repository
-RUN apt-get update && apt-get install -y software-properties-common \
-    && apt-add-repository multiverse
+RUN apt-get update && apt-get install -y software-properties-common && apt-add-repository multiverse
 
 # 3. Pre-accept the Steam EULA license
-RUN echo steam steam/question select "I AGREE" | debconf-set-selections \
-    && echo steam steam/license note "" | debconf-set-selections
+#RUN echo steam steam/question select "I AGREE" | debconf-set-selections \
+#    && echo steam steam/license note "" | debconf-set-selections
 
 # 4. Install steamcmd and certificate utilities
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    steamcmd \
+    curl \
     ca-certificates \
     gosu procps \
     && rm -rf /var/lib/apt/lists/*
 
 # 5. Create a symlink so 'steamcmd' is accessible globally in your terminal
-RUN ln -s /usr/games/steamcmd /usr/bin/steamcmd
+#RUN ln -s /usr/games/steamcmd /usr/bin/steamcmd
 
 COPY scripts/ /scripts/
 COPY entrypoint.sh /entrypoint.sh

@@ -10,18 +10,15 @@ RUN dpkg --add-architecture i386
 # 2. Add the multiverse repository
 RUN apt-get update && apt-get install -y software-properties-common && apt-add-repository multiverse
 
-# 3. Pre-accept the Steam EULA license
-#RUN echo steam steam/question select "I AGREE" | debconf-set-selections \
-#    && echo steam steam/license note "" | debconf-set-selections
-
-# 4. Install steamcmd and certificate utilities
+# 3. Install steamcmd and certificate utilities
 RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     ca-certificates \
     gosu procps \
+    lib32gcc-s1 lib32stdc++6 libc6:i386 \
     && rm -rf /var/lib/apt/lists/*
 
-# 5. Create a symlink so 'steamcmd' is accessible globally in your terminal
+# 4. Create a symlink so 'steamcmd' is accessible globally in your terminal
 #RUN ln -s /usr/games/steamcmd /usr/bin/steamcmd
 
 COPY scripts/ /scripts/
@@ -29,7 +26,7 @@ COPY entrypoint.sh /entrypoint.sh
 
 RUN chmod +x /scripts/*
 
-# 1. Create and setup default user
+# 5. Create and setup default user
 ARG PUID=1000
 ARG PGID=1000
 RUN groupadd -g ${PGID} -r dayz-docker && useradd -u ${PUID} -g dayz-docker -r -s /bin/bash -m dayz-docker

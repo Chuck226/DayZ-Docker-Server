@@ -4,7 +4,7 @@ set -e
 
 install_server_as_requested_user() {
     mkdir -p /home/dayz-docker/server/dayz-server
-    steamcmd +@NoPromptForPassword 1 +force_install_dir /home/dayz-docker/server/dayz-server/ +login ${STEAM_USERNAME} ${STEAM_PASSWORD} ${STEAM_GUARD_CODE} +app_update 223350 +quit
+    ~/server/steamcmd/steamcmd.sh +force_install_dir /home/dayz-docker/server/dayz-server/ +login ${STEAM_USERNAME} ${STEAM_PASSWORD} +app_update 223350 +quit
 }
 
 #In this step we also need to bring back data from backup (validation/update can corrupt them)
